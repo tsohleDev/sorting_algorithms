@@ -16,12 +16,12 @@ void swap(int *array, size_t size, int *a, int *b)
 		*a = *a + *b;
 		*b = *a - *b;
 		*a = *a - *b;
-		print_array((const int *)array, size);
 	}
+	print_array((const int *)array, size);
 }
 
 /**
- * lomuto_partition - partitions the array
+ * hoare_partition - partitions the array
  * @array: the integer array to sort
  * @size: the size of the array
  * @lo: the low index of the sort range
@@ -29,20 +29,27 @@ void swap(int *array, size_t size, int *a, int *b)
  *
  * Return: void
  */
-size_t lomuto_partition(int *array, size_t size, ssize_t lo, ssize_t hi)
+size_t hoare_partition(int *array, ssize_t size, ssize_t lo, ssize_t hi)
 {
-	int i, j, pivot = array[hi];
+	ssize_t i = lo - 1, j = hi + 1;
+	int pivot = array[hi];
 
-	for (i = j = lo; j < hi; j++)
-		if (array[j] < pivot)
-			swap(array, size, &array[j], &array[i++]);
-	swap(array, size, &array[i], &array[hi]);
-
+	while (i < size)
+	{
+		while (array[++i] < pivot)
+			;
+		while (array[--j] > pivot)
+			;
+		if (i < j)
+			swap(array, size, &array[i], &array[j]);
+		else if (i >= j)
+			break;
+	}
 	return (i);
 }
 
 /**
- * quicksort - quicksorts via Lomuto partitioning scheme
+ * quicksort - quicksorts via hoare partitioning scheme
  * @array: the integer array to sort
  * @size: the size of the array
  * @lo: the low index of the sort range
@@ -54,23 +61,23 @@ void quicksort(int *array, size_t size, ssize_t lo, ssize_t hi)
 {
 	if (lo < hi)
 	{
-		size_t p = lomuto_partition(array, size, lo, hi);
+		size_t p = hoare_partition(array, size, lo, hi);
 
 		quicksort(array, size, lo, p - 1);
-		quicksort(array, size, p + 1, hi);
+		quicksort(array, size, p, hi);
 	}
 }
 
 /**
- * quick_sort - calls quicksort
+ * quick_sort_hoare - calls quicksort
  * @array: the integer array to sort
  * @size: the size of the array
  *
  * Return: void
  */
-void quick_sort(int *array, size_t size)
+void quick_sort_hoare(int *array, size_t size)
 {
-	if (!array || !size)
+	if (!array || size < 2)
 		return;
 	quicksort(array, size, 0, size - 1);
 }

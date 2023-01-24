@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "../sort.h"
+#include "sort.h"
 
 /**
  * main - Entry point
@@ -19,3 +17,4 @@ int main(void)
 	print_array(array, n);
 	return (0);
 }
+

@@ -41,8 +41,8 @@ listint_t *create_listint(const int *array, size_t size)
 int main(void)
 {
 	listint_t *list;
-	int array[] = {39, 31, 19, 42, 12};
-	size_t n = sizeof(array) / sizeof(array[0]);
+	size_t n = 52;
+	int *array = rand_array(n, 1000);
 
 	list = create_listint(array, n);
 	if (!list)
@@ -52,5 +52,6 @@ int main(void)
 	cocktail_sort_list(&list);
 	printf("\n");
 	print_list(list);
+	check_list(list);
 	return (0);
 }
